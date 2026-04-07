@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "content-engine-v0"
+version = "0.1.0"
+description = "Prompt-to-post generator with CLI and FastAPI interfaces."
+authors = [{ name = "Content Engine" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "typer",
+    "pydantic>=2",
+    "httpx",
+    "python-dotenv",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[project.scripts]
+autocreate = "content_engine.cli:app"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "-q"
