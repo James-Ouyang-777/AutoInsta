@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""MVP: generate a caption and post a single photo to Instagram.
+"""MVP: generate a caption + image and post a single photo to Instagram.
 
-Usage:
+Usage (auto-generate image via DALL-E):
+    python post_once.py \
+        --topic "morning coffee" \
+        --keywords "coffee,ritual,morning"
+
+Usage (bring your own image):
     python post_once.py \
         --topic "morning coffee" \
         --keywords "coffee,ritual,morning" \
         --image-url "https://example.com/coffee.jpg"
 
 The image URL must be publicly accessible (Instagram fetches it server-side).
-Set INSTAGRAM_USER_ID and INSTAGRAM_ACCESS_TOKEN in your .env file first.
+Set LLM_API_KEY, INSTAGRAM_USER_ID, and INSTAGRAM_ACCESS_TOKEN in .env first.
 """
 
 from __future__ import annotations
@@ -21,6 +26,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from content_engine.generator import GenerationError, generate
+from content_engine.image_gen import ImageGenError, generate_image
 from content_engine.poster import PostError, post_instagram
 
 
@@ -37,10 +43,14 @@ def _build_caption(variant: dict) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate caption and post to Instagram.")
+    parser = argparse.ArgumentParser(description="Generate caption + image and post to Instagram.")
     parser.add_argument("--topic", required=True, help="What the post is about")
     parser.add_argument("--keywords", required=True, help="Comma-separated keywords")
-    parser.add_argument("--image-url", required=True, help="Publicly accessible image URL")
+    parser.add_argument(
+        "--image-url",
+        default=None,
+        help="Publicly accessible image URL. Omit to auto-generate via DALL-E.",
+    )
     parser.add_argument("--voice", default="friendly", help="Brand voice (default: friendly)")
     parser.add_argument("--audience", default="general", help="Target audience")
     parser.add_argument("--cta-style", default="soft", help="CTA style (soft/hard/question)")
@@ -54,6 +64,7 @@ def main() -> None:
         "prohibited": [],
     }
 
+    # Step 1: generate caption
     print(f"Generating caption for: {args.topic!r}")
     try:
         variants = generate(
@@ -65,15 +76,29 @@ def main() -> None:
             n_variants=1,
         )
     except GenerationError as e:
-        print(f"Generation failed: {e}", file=sys.stderr)
+        print(f"Caption generation failed: {e}", file=sys.stderr)
         sys.exit(1)
 
     caption = _build_caption(variants[0])
     print(f"\n--- Caption ---\n{caption}\n---------------\n")
 
+    # Step 2: get or generate image
+    image_url = args.image_url
+    if image_url:
+        print(f"Using provided image: {image_url}")
+    else:
+        print("Generating image via DALL-E...")
+        try:
+            image_url = generate_image(topic=args.topic, keywords=keywords)
+            print(f"Image URL: {image_url}\n")
+        except ImageGenError as e:
+            print(f"Image generation failed: {e}", file=sys.stderr)
+            sys.exit(1)
+
+    # Step 3: post
     print("Posting to Instagram...")
     try:
-        post_id = post_instagram(caption=caption, image_url=args.image_url)
+        post_id = post_instagram(caption=caption, image_url=image_url)
     except PostError as e:
         print(f"Post failed: {e}", file=sys.stderr)
         sys.exit(1)
