@@ -18,7 +18,7 @@ def sanitize_hashtags(tags: Iterable[str], max_count: int) -> list[str]:
     cleaned: list[str] = []
     seen: set[str] = set()
     for tag in tags:
-        normalized = re.sub(r"[^0-9a-z]+", "", tag.lower())
+        normalized = re.sub(r"[^0-9a-z_]+", "", tag.lower())
         if not normalized:
             continue
         if normalized in seen:
