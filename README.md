@@ -1,1 +1,1 @@
-# AutoInsta
+# AI
