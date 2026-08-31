@@ -10,7 +10,8 @@ Usage (auto-generate a 5-second video via fal.ai, posted as a Reel):
     python post_once.py \
         --topic "morning coffee" \
         --keywords "coffee,ritual,morning" \
-        --type video
+        --type video \
+        --video-model fal-ai/kling-video/v3/pro/text-to-video
 
 Usage (bring your own image):
     python post_once.py \
@@ -61,6 +62,15 @@ def main() -> None:
         help="Media type: 'image' (DALL-E photo post) or 'video' (fal.ai 5s Reel). Default: image.",
     )
     parser.add_argument(
+        "--video-model",
+        default=None,
+        help=(
+            "fal.ai model route override (video only), e.g. "
+            "fal-ai/kling-video/v3/pro/text-to-video. "
+            "If omitted, the built-in default is used."
+        ),
+    )
+    parser.add_argument(
         "--image-url",
         default=None,
         help="Publicly accessible image URL. Omit to auto-generate. (--type image only)",
@@ -72,6 +82,8 @@ def main() -> None:
 
     if args.type == "video" and args.image_url:
         parser.error("--image-url only applies to --type image")
+    if args.video_model and args.type != "video":
+        parser.error("--video-model only applies to --type video")
 
     keywords = [k.strip() for k in args.keywords.split(",") if k.strip()]
     brand = {
@@ -103,7 +115,7 @@ def main() -> None:
     if args.type == "video":
         print("Generating 5-second video via fal.ai (this can take a few minutes)...")
         try:
-            video_url = generate_video(topic=args.topic, keywords=keywords)
+            video_url = generate_video(topic=args.topic, keywords=keywords, model=args.video_model)
             print(f"Video URL: {video_url}\n")
         except VideoGenError as e:
             print(f"Video generation failed: {e}", file=sys.stderr)

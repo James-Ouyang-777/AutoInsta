@@ -1,0 +1,93 @@
+# Daily scene rotation for the Jammy-O brand.
+#
+# Selected deterministically by day: date.toordinal() % len(scenes), so the
+# rotation is stateless (no "last posted" bookkeeping needed) and self-heals
+# if a day is skipped. Add/reorder entries freely — the index just shifts.
+#
+# Fields:
+#   scene:      required — fed into brand.scene_prompt() for the still image.
+#   characters: optional — list of character keys to feature (default: all
+#               of jammy-o + supporting_characters, i.e. everyone).
+#   motion:     optional — fed to the image-to-video animation step (default:
+#               the generic "bring this scene to life" motion prompt).
+
+scenes:
+  - scene: "Jammy-O and Pineapple having a beach picnic, toast and fresh strawberries on a blanket"
+    characters: [jammy-o, pineapple]
+    motion: "a gentle breeze rustles the blanket, Jammy-O waves at the camera, camera slowly pushes in"
+
+  - scene: "Jammy-O baking morning toast alone in a cozy pastel kitchen, golden light through the window"
+    characters: [jammy-o]
+    motion: "steam gently rises from the toast, Jammy-O bounces happily, camera holds steady"
+
+  - scene: "Jammy-O and Pineapple stacking pancakes together at a breakfast table"
+    characters: [jammy-o, pineapple]
+    motion: "syrup slowly drips, both characters cheer, camera tilts up slightly"
+
+  - scene: "Pineapple relaxing in a hammock strung between two potted plants, sipping something through a straw"
+    characters: [pineapple]
+    motion: "the hammock sways gently, Pineapple takes a sip, camera drifts sideways"
+
+  - scene: "Jammy-O riding a tiny bicycle through a sunny pastel neighborhood, a picnic basket on the handlebars"
+    characters: [jammy-o]
+    motion: "the bicycle wheels spin, Jammy-O pedals forward, camera tracks alongside"
+
+  - scene: "Jammy-O and Pineapple having a picnic under a big shade tree with a checkered blanket and fresh fruit"
+    characters: [jammy-o, pineapple]
+    motion: "leaves rustle overhead, the two characters clink jars together, camera holds steady"
+
+  - scene: "Jammy-O reading a cookbook at a kitchen counter, ingredients laid out nearby"
+    characters: [jammy-o]
+    motion: "a page turns, Jammy-O nods thoughtfully, camera slowly pushes in"
+
+  - scene: "Pineapple watering a small herb garden on a sunny windowsill"
+    characters: [pineapple]
+    motion: "water droplets fall from the can, Pineapple smiles, camera holds steady"
+
+  - scene: "Jammy-O and Pineapple building a tiny blanket fort out of couch cushions"
+    characters: [jammy-o, pineapple]
+    motion: "the blanket flutters as it settles, both characters peek out, camera pushes in gently"
+
+  - scene: "Jammy-O jogging along a sunny park path past pastel flower beds"
+    characters: [jammy-o]
+    motion: "Jammy-O bounces with each stride, camera tracks alongside at a light jog"
+
+  - scene: "Jammy-O and Pineapple having a picnic tea party with tiny cups and a checkered cloth"
+    characters: [jammy-o, pineapple]
+    motion: "steam rises from the tiny cups, both characters raise them in a toast, camera holds steady"
+
+  - scene: "Pineapple lounging poolside on a floaty shaped like a slice of toast"
+    characters: [pineapple]
+    motion: "the floaty bobs gently on the water, Pineapple waves, camera drifts slowly"
+
+  - scene: "Jammy-O flipping pancakes solo at a griddle, apron on, morning light streaming in"
+    characters: [jammy-o]
+    motion: "a pancake flips mid-air, Jammy-O catches it in the pan, camera holds steady"
+
+  - scene: "Jammy-O and Pineapple window-shopping past a bakery display in a pastel town square"
+    characters: [jammy-o, pineapple]
+    motion: "the two characters point excitedly at the window, camera slowly pans"
+
+  - scene: "Jammy-O doing a little dance in the kitchen while music notes float around"
+    characters: [jammy-o]
+    motion: "Jammy-O sways side to side, camera holds steady with a gentle zoom"
+
+  - scene: "Pineapple stacking fresh fruit into a tall wobbly pyramid on a picnic table"
+    characters: [pineapple]
+    motion: "the top piece of fruit wobbles, Pineapple steadies it just in time, camera holds steady"
+
+  - scene: "Jammy-O and Pineapple roasting marshmallows over a small campfire at dusk"
+    characters: [jammy-o, pineapple]
+    motion: "the campfire flickers warmly, both characters lean in toward the fire, camera holds steady"
+
+  - scene: "Jammy-O curled up napping in a sunbeam on a cozy kitchen rug"
+    characters: [jammy-o]
+    motion: "a slow, peaceful breathing motion, dust motes drift in the sunbeam, camera holds steady"
+
+  - scene: "Jammy-O and Pineapple flying a kite together in a big open pastel field"
+    characters: [jammy-o, pineapple]
+    motion: "the kite bobs and weaves overhead, both characters look up and laugh, camera tilts to follow the kite"
+
+  - scene: "Pineapple carefully arranging fruit slices into a smiley face on a breakfast plate"
+    characters: [pineapple]
+    motion: "the final fruit slice is placed, Pineapple leans back to admire it, camera holds steady"

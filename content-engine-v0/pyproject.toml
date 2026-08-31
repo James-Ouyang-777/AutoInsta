@@ -14,6 +14,7 @@ dependencies = [
     "typer",
     "pydantic>=2",
     "httpx",
+    "fal-client",
     "python-dotenv",
     "pyyaml",
 ]
