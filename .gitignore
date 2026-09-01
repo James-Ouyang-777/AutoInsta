@@ -201,6 +201,13 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Runtime queue artifacts
+content-engine-v0/pending_posts.json
+
+# Generated post media and unapproved reference candidates
+content-engine-v0/generated/
+content-engine-v0/brands/*/references/candidates/
+
 # Marimo
 marimo/_static/
 marimo/_lsp/

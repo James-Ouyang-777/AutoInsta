@@ -1,0 +1,95 @@
+# Brand consistency spec — single source of truth for captions AND images.
+# Anything marked TODO is a placeholder guess: edit it once, then never let
+# prompts contradict it. The whole "character" block should be pasted into
+# every image prompt verbatim — image models have no memory between runs, so
+# consistency comes from repeating the exact same character sheet every time.
+
+brand:
+  name: "Jammy-O"
+  one_liner: "A cheerful jam brand fronted by Jammy-O, a living jam jar."
+
+# Key of the character block below (must match a references/<key>.png file).
+main_character: "jammy-o"
+
+# ---------------------------------------------------------------------------
+# CHARACTER CANON — Jammy-O the mascot. Never deviate.
+# ---------------------------------------------------------------------------
+character:
+  name: "Jammy-O"
+  form: "an anthropomorphic glass jam jar"
+  body: "clear glass jar filled with glossy RED strawberry jam — the jar always reads as red"
+  lid: "gold screw-top lid, worn like a hat"                 # TODO: confirm lid color
+  label: "no label — plain clear glass all around so the red jam shows through"
+  face: "two simple round black eyes and a wide friendly smile, drawn on the glass"
+  limbs: "short stubby arms with white cartoon gloves; short stubby legs and feet in the same red as the jam"
+  size: "about the size of a real jam jar; never towers over food or props"
+  personality: "upbeat, playful, a little cheeky; never sarcastic or mean"
+  invariants:
+    - "Jammy-O is ALWAYS red (strawberry) regardless of which flavor the post is about"
+    - "Exactly one Jammy-O per image; never clones, never variants"
+    - "Same proportions every time: jar 2x taller than wide, lid ~1/5 of total height"
+    - "Never a real photograph of a jar with a pasted-on face — always fully illustrated/rendered in the house style"
+
+# Secondary cast — same house style and jar proportions as Jammy-O.
+supporting_characters:
+  pineapple:
+    name: "Pineapple"        # TODO: give this character a real name
+    form: "an anthropomorphic glass jam jar, same build and proportions as Jammy-O"
+    body: "clear glass jar filled with glossy sunny GOLDEN-YELLOW pineapple jam — always reads as a yellow jar"
+    lid: "gold screw-top lid worn like a hat"
+    face: "two simple round black eyes and a friendly smile drawn on the glass"
+    limbs: "short stubby rounded arms in the same golden yellow as the jam — NO gloves; short stubby yellow legs and feet"
+    invariants:
+      - "This character is ALWAYS yellow — never any other color"
+      - "Never appears redder/warmer than golden yellow; never swaps colors with Jammy-O"
+      - "No gloves — bare yellow arms distinguish Pineapple from Jammy-O's white-gloved look"
+
+# ---------------------------------------------------------------------------
+# FLAVOR COLOR CANON — non-negotiable color per flavor.
+# ---------------------------------------------------------------------------
+flavors:
+  strawberry:  { color: "bright glossy red",        fruit_prop: "fresh strawberries" }
+  pineapple:   { color: "sunny golden yellow",      fruit_prop: "pineapple wedges" }
+  blueberry:   { color: "deep indigo purple-blue",  fruit_prop: "fresh blueberries" }
+  orange:      { color: "warm amber orange",        fruit_prop: "orange slices with peel" }
+  raspberry:   { color: "rich crimson pink-red",    fruit_prop: "fresh raspberries" }
+  # TODO: add/remove flavors to match the real product line
+  rules:
+    - "A flavor's jam color NEVER changes: pineapple jam MUST be yellow, blueberry MUST be purple-blue, etc."
+    - "Jam is always glossy, translucent, with visible fruit pieces — never matte, never opaque paste"
+    - "When a flavor is featured, show its fruit_prop near the jar so the color reads instantly"
+
+# ---------------------------------------------------------------------------
+# VISUAL STYLE — how every image is rendered.
+# ---------------------------------------------------------------------------
+visual_style:
+  rendering: "soft 3D cartoon render, Pixar-like, rounded shapes, gentle subsurface glow in the jam"  # LOCKED — do not change
+  lighting: "bright, warm morning light, soft shadows"
+  background: "clean pastel kitchen or picnic settings; simple, uncluttered, shallow depth"
+  palette: "warm creams and pastels in the environment so the jam colors pop"
+  composition: "Jammy-O or the featured jar is the clear hero, centered or rule-of-thirds; generous negative space"
+  aspect: "1:1 square, 1024x1024"
+  never:
+    - "no text, lettering, numbers, or logos rendered inside the image"
+    - "no watermarks"
+    - "no realistic human faces"
+    - "no other mascots or branded products"
+    - "no horror/melting/spilled-mess depictions of the jam"
+    - "no photorealism — the world is always illustrated"
+
+# ---------------------------------------------------------------------------
+# VOICE — how every caption sounds.
+# ---------------------------------------------------------------------------
+voice:
+  tone: "warm, playful, food-loving; light puns welcome (at most one)"
+  person: "Jammy-O speaks in first person ('I', 'my'); the brand never says 'we'"
+  audience: "home bakers, breakfast lovers, families"
+  reading_level: "casual, short sentences"
+  caption_style: "either NO caption, or exactly ONE short witty sentence about jam — never a multi-line hook/body/CTA/hashtag block"
+  emojis: "at most 1, only if it fits naturally — often none"
+  max_chars: 150
+  prohibited:
+    - "guilt-free"
+    - "to die for"
+    - "literally"
+    - "any health or medical claims"

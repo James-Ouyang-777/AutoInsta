@@ -71,3 +71,53 @@ def generate_variants(prompt: str, n: int) -> list[dict[str, Any]]:
             break
 
     raise LLMError(f"Failed to obtain variants: {last_exc}")
+
+
+def generate_caption(prompt: str) -> str:
+    """Send prompt to the configured LLM and return a single short caption string."""
+    api_key = os.getenv("LLM_API_KEY")
+    model = os.getenv("LLM_MODEL", "gpt-4o-mini")
+    timeout = float(os.getenv("REQUEST_TIMEOUT_SECONDS", "30"))
+
+    if not api_key:
+        raise LLMError("LLM_API_KEY missing. Set it in the environment or .env file.")
+
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": "You write extremely short, witty captions. One sentence only."},
+            {"role": "user", "content": prompt},
+        ],
+        "response_format": {"type": "json_object"},
+    }
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    attempt = 0
+    last_exc: Exception | None = None
+    while attempt < 2:
+        try:
+            with _client(timeout) as client:
+                response = client.post("/chat/completions", headers=headers, json=payload)
+                response.raise_for_status()
+                data = response.json()
+                content = data["choices"][0]["message"]["content"]
+                parsed = json.loads(content)
+                caption = parsed.get("caption")
+                if not isinstance(caption, str) or not caption.strip():
+                    raise LLMError("LLM response missing 'caption' string.")
+                return caption.strip()
+        except (httpx.HTTPError, json.JSONDecodeError, KeyError, LLMError) as exc:
+            last_exc = exc
+            if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code < 500:
+                break
+            backoff = 2 ** attempt
+            time.sleep(backoff)
+            attempt += 1
+        else:
+            break
+
+    raise LLMError(f"Failed to obtain caption: {last_exc}")

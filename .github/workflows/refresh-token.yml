@@ -1,0 +1,28 @@
+name: Refresh Instagram token
+
+on:
+  schedule:
+    # Weekly — a long-lived Instagram token is valid for 60 days and must be
+    # ≥24h old to refresh, so a weekly cadence leaves a wide safety margin
+    # even if a run is missed.
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refresh long-lived token
+        env:
+          CURRENT: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+        run: |
+          RESP=$(curl -fsS "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${CURRENT}")
+          NEW=$(echo "$RESP" | jq -er '.access_token')
+          echo "::add-mask::$NEW"
+          echo "NEW_TOKEN=$NEW" >> "$GITHUB_ENV"
+
+      - name: Store new token as repo secret
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          NEW_TOKEN: ${{ env.NEW_TOKEN }}
+        run: gh secret set INSTAGRAM_ACCESS_TOKEN --repo James-Ouyang-777/AutoInsta --body "$NEW_TOKEN"
