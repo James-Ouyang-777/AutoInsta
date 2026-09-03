@@ -3,10 +3,14 @@ name: Daily brand post
 on:
   schedule:
     # 5pm America/New_York is 21:00 UTC during EDT and 22:00 UTC during EST.
-    # Both fire every day; the guard step below only lets the one that
-    # currently matches local 5pm through.
-    - cron: "0 21 * * *"
-    - cron: "0 22 * * *"
+    # Both fire every day; the guard step below lets through only the one
+    # whose cron expression matches today's actual DST state (not the literal
+    # clock hour — GitHub commonly delays scheduled runs by an hour or more,
+    # especially ones queued on the exact hour, so matching on wall-clock
+    # hour is not delay-tolerant and can cause both triggers to be skipped).
+    # Minutes are offset from :00 to reduce queuing delay in the first place.
+    - cron: "7 21 * * *"
+    - cron: "7 22 * * *"
   workflow_dispatch:
     inputs:
       publish:
@@ -23,14 +27,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Guard — only proceed at 5pm America/New_York on scheduled runs
+      - name: Guard — only proceed on the cron line matching today's DST state
         id: guard
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=America/New_York date +%H)" != "17" ]; then
-            echo "Not 5pm America/New_York right now — skipping this scheduled trigger."
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
+          if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          ZONE="$(TZ=America/New_York date +%Z)"   # EDT or EST
+          SCHEDULE="${{ github.event.schedule }}"
+          if [ "$ZONE" = "EDT" ] && [ "$SCHEDULE" = "7 21 * * *" ]; then
+            MATCH=true
+          elif [ "$ZONE" = "EST" ] && [ "$SCHEDULE" = "7 22 * * *" ]; then
+            MATCH=true
+          else
+            MATCH=false
+          fi
+          if [ "$MATCH" = "true" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Wrong DST slot for today ($ZONE, triggered by '$SCHEDULE') — skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
       - uses: actions/checkout@v4
