@@ -65,6 +65,11 @@ def main() -> None:
         help="'witty' (default): one short witty sentence. 'none': no caption at all.",
     )
     parser.add_argument(
+        "--no-audio",
+        action="store_true",
+        help="Disable native audio generation (silent Reel). Audio is on by default.",
+    )
+    parser.add_argument(
         "--no-publish",
         action="store_true",
         help="Generate the still and video and print the result, but don't post to Instagram.",
@@ -121,9 +126,15 @@ def main() -> None:
 
     # Step 3: animate into a short video
     print(f"[{now}] Motion prompt:\n{motion}\n")
-    print(f"[{now}] Generating video (duration={args.duration}s)...")
+    with_audio = not args.no_audio
+    print(f"[{now}] Generating video (duration={args.duration}s, audio={with_audio})...")
     try:
-        video_url = generate_video_from_image(image_url, motion, duration=args.duration)
+        video_url = generate_video_from_image(
+            image_url,
+            motion,
+            duration=args.duration,
+            generate_audio=with_audio,
+        )
     except VideoGenError as e:
         print(f"[{now}] Video generation failed: {e}", file=sys.stderr)
         sys.exit(1)

@@ -60,9 +60,9 @@ def main() -> None:
     )
     parser.add_argument("--duration", default="5", help="Video length in seconds, 3-15 (default: 5).")
     parser.add_argument(
-        "--audio",
+        "--no-audio",
         action="store_true",
-        help="Let the model generate native audio (default: silent — audio quality is unpredictable).",
+        help="Disable native audio generation (silent Reel). Audio is on by default.",
     )
     parser.add_argument(
         "--topic",
@@ -99,14 +99,15 @@ def main() -> None:
         sys.exit(1)
     print(f"[{now}] Source image URL: {image_url}")
 
+    with_audio = not args.no_audio
     print(f"[{now}] Motion prompt:\n{args.motion}\n")
-    print(f"[{now}] Generating video (duration={args.duration}s, audio={args.audio})...")
+    print(f"[{now}] Generating video (duration={args.duration}s, audio={with_audio})...")
     try:
         video_url = generate_video_from_image(
             image_url,
             args.motion,
             duration=args.duration,
-            generate_audio=args.audio,
+            generate_audio=with_audio,
         )
     except VideoGenError as e:
         print(f"[{now}] Video generation failed: {e}", file=sys.stderr)

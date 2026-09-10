@@ -59,14 +59,16 @@ def generate_video(
     keywords: list[str],
     tone: str = "cinematic, vibrant",
     model: str | None = None,
+    generate_audio: bool = True,
 ) -> str:
     """Generate a ~5 second vertical video via fal.ai and return its URL.
 
     Args:
-        topic:    What the post is about (used to guide the video prompt).
-        keywords: List of keywords for additional visual context.
-        tone:     Visual style hint passed to the video model.
-        model:    Optional fal model route override.
+        topic:          What the post is about (used to guide the video prompt).
+        keywords:       List of keywords for additional visual context.
+        tone:           Visual style hint passed to the video model.
+        model:          Optional fal model route override.
+        generate_audio: Whether to generate native audio (default: True).
 
     Returns:
         A publicly accessible video URL.
@@ -88,6 +90,7 @@ def generate_video(
         "prompt": prompt,
         "duration": "5",
         "aspect_ratio": "9:16",
+        "generate_audio": generate_audio,
     }
     # fal_client handles queue submit/status/result correctly across model families.
     os.environ["FAL_KEY"] = api_key
@@ -109,7 +112,7 @@ def generate_video_from_image(
     image_url: str,
     motion_prompt: str,
     duration: str = "5",
-    generate_audio: bool = False,
+    generate_audio: bool = True,
     model: str | None = None,
 ) -> str:
     """Animate a still image into a short video via fal.ai image-to-video.
@@ -121,7 +124,7 @@ def generate_video_from_image(
         image_url:      Publicly accessible URL of the source still image.
         motion_prompt:  Describes the desired motion/animation.
         duration:       Video length in seconds as a string (3-15).
-        generate_audio: Whether to let the model generate native audio.
+        generate_audio: Whether to generate native audio (default: True).
         model:          Optional fal model route override.
 
     Returns:
