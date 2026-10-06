@@ -125,15 +125,17 @@ def main() -> None:
     print(f"[{now}] Public still URL: {image_url}")
 
     # Step 3: animate into a short video
-    print(f"[{now}] Motion prompt:\n{motion}\n")
     with_audio = not args.no_audio
+    motion_prompt = brand.motion_prompt_with_sound(style, motion, with_audio=with_audio)
+    print(f"[{now}] Motion prompt:\n{motion_prompt}\n")
     print(f"[{now}] Generating video (duration={args.duration}s, audio={with_audio})...")
     try:
         video_url = generate_video_from_image(
             image_url,
-            motion,
+            motion_prompt,
             duration=args.duration,
             generate_audio=with_audio,
+            negative_prompt=brand.sound_negative_prompt(style) if with_audio else None,
         )
     except VideoGenError as e:
         print(f"[{now}] Video generation failed: {e}", file=sys.stderr)

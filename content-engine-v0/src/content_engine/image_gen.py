@@ -189,10 +189,11 @@ def generate_scene_image(prompt: str, reference_paths: list[Path]) -> bytes:
 
 
 def host_image_publicly(image_path: Path) -> str:
-    """Upload a local image and return a public URL Instagram can fetch.
+    """Upload a local image and return a URL fal (or Instagram) can fetch.
 
-    Prefers Cloudinary when configured; otherwise uses fal.ai storage (the
-    FAL_API_KEY already used for video generation), whose CDN URLs persist.
+    Prefers Cloudinary when configured; otherwise uses fal.ai storage.
+    If fal storage auth fails, falls back to a data URI so image-to-video
+    can still run (fal accepts data URIs for start_image_url).
     """
     if os.getenv("CLOUDINARY_CLOUD_NAME") and os.getenv("CLOUDINARY_UPLOAD_PRESET"):
         return _upload_base64_to_cloudinary(base64.b64encode(image_path.read_bytes()).decode())
@@ -208,5 +209,17 @@ def host_image_publicly(image_path: Path) -> str:
 
     try:
         return fal_client.upload_file(str(image_path))
-    except Exception as exc:
-        raise ImageGenError(f"fal.ai upload failed: {exc}") from exc
+    except Exception as storage_exc:
+        # fal CDN upload can 403 even when queue inference works; data URI is
+        # accepted by Kling image-to-video as start_image_url.
+        try:
+            mime = "image/png" if image_path.suffix.lower() == ".png" else "image/jpeg"
+            data_uri = (
+                f"data:{mime};base64,"
+                f"{base64.b64encode(image_path.read_bytes()).decode()}"
+            )
+            return data_uri
+        except Exception as exc:
+            raise ImageGenError(
+                f"fal.ai upload failed ({storage_exc}); data-URI fallback also failed: {exc}"
+            ) from exc

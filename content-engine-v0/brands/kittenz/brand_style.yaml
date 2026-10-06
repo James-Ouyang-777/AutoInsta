@@ -1,0 +1,100 @@
+# Brand consistency spec — single source of truth for captions AND images.
+# Anything marked TODO is a placeholder guess: edit it once, then never let
+# prompts contradict it. The whole "character" block should be pasted into
+# every image prompt verbatim — image models have no memory between runs, so
+# consistency comes from repeating the exact same character sheet every time.
+
+brand:
+  name: "Kittenz"
+  one_liner: "Two ultra-round 3D kittens living soft, cozy little lives."
+  topic_domain: "cute kittens, cozy everyday moments, and soft pet humor"
+
+# Key of the character block below (must match a references/<key>.png file).
+main_character: "snow"
+
+# ---------------------------------------------------------------------------
+# CHARACTER CANON — Snow (white kitten). Never deviate.
+# ---------------------------------------------------------------------------
+character:
+  name: "Snow"
+  form: "an ultra-round, chibi 3D kitten toy character"
+  body: "pure soft WHITE fur, nearly spherical body, tiny stubby limbs, plush clay-like surface"
+  face: "two clearly visible solid round BLACK eyes (never missing, never white-on-white), tiny pink triangular nose, tiny closed-curve smile — minimal but readable features"
+  limbs: "very short stubby paws and a short plump white tail curled close to the body"
+  size: "tiny and toy-like — about the size of a teacup"
+  personality: "calm, gentle, soft-spoken sweetness; never mischievous in a mean way"
+  invariants:
+    - "Snow is ALWAYS pure white — never cream, gray, or patterned"
+    - "Exactly one Snow per image when featured; never clones"
+    - "Body is extremely round / ball-like — head and body nearly one continuous sphere"
+    - "Minimal face but eyes MUST always be clearly visible solid black dots — never blank/eyeless face"
+    - "Only simple eyes + tiny nose + tiny smile — no detailed fur, no whisker mess, no clutter"
+    - "Same soft matte 3D toy look every time — never photoreal cat"
+
+# Secondary cast — same house style and round proportions as Snow.
+supporting_characters:
+  cocoa:
+    name: "Cocoa"
+    form: "an ultra-round, chibi 3D kitten toy character, same proportions as Snow"
+    body: "soft warm BROWN fur (milk-chocolate tone), nearly spherical body, tiny stubby limbs, plush clay-like surface"
+    face: "two tiny simple black dot eyes, tiny pink triangular nose, tiny closed-curve smile — minimal features only"
+    limbs: "very short stubby paws and a short plump brown tail curled close to the body"
+    invariants:
+      - "Cocoa is ALWAYS warm brown — never black, orange tabby, or white"
+      - "Same extreme roundness as Snow — never lanky or realistic"
+      - "Distinguish from Snow by color only; proportions and face style match exactly"
+      - "Never photoreal — always soft matte 3D toy render"
+
+# ---------------------------------------------------------------------------
+# SOUND — native audio direction for image-to-video (Kling generate_audio).
+# Appended to every motion prompt when audio is enabled.
+# ---------------------------------------------------------------------------
+sound:
+  direction: >
+    only cute baby kitten vocalizations: tiny soft mews, gentle high-pitched
+    baby kitten squeaks, soft contented purrs, little questioning chirps.
+    No human speech, no adult voices, no singing, no music with lyrics,
+    no harsh sounds. Keep volume soft and adorable.
+  never:
+    - "human speech"
+    - "adult voices"
+    - "singing with words"
+    - "music lyrics"
+    - "robotic TTS"
+    - "loud or scary sounds"
+
+# ---------------------------------------------------------------------------
+# VISUAL STYLE — how every image is rendered.
+# ---------------------------------------------------------------------------
+visual_style:
+  rendering: "minimal soft 3D toy render, claymation / plasticine feel, ultra-round forms, clean surfaces, almost no texture detail"
+  lighting: "bright soft studio light, gentle ambient occlusion, soft shadows"
+  background: "simple pastel or soft-neutral sets; uncluttered, shallow depth, cozy but spare"
+  palette: "soft pastels and warm neutrals so white and brown fur read clearly"
+  composition: "kitten(s) are the clear hero, centered or rule-of-thirds; generous negative space"
+  aspect: "1:1 square, 1024x1024"
+  never:
+    - "no text, lettering, numbers, or logos rendered inside the image"
+    - "no watermarks"
+    - "no realistic human faces"
+    - "no photoreal cats or real fur photography"
+    - "no busy patterns, busy environments, or visual clutter"
+    - "no sharp angles — everything stays soft and round"
+    - "no horror, injury, or scary expressions"
+
+# ---------------------------------------------------------------------------
+# VOICE — how every caption sounds.
+# ---------------------------------------------------------------------------
+voice:
+  tone: "warm, soft, playful; light cat puns welcome (at most one)"
+  person: "Snow speaks in first person ('I', 'my'); the brand never says 'we'"
+  audience: "cat lovers, cozy-content fans, families"
+  reading_level: "casual, short sentences"
+  caption_style: "either NO caption, or exactly ONE short witty sentence — never a multi-line hook/body/CTA/hashtag block"
+  emojis: "at most 1, only if it fits naturally — often none"
+  max_chars: 150
+  prohibited:
+    - "to die for"
+    - "literally"
+    - "any health or medical claims"
+    - "guaranteed"

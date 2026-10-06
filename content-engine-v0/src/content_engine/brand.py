@@ -20,7 +20,7 @@ from .normalize import apply_prohibited, truncate
 
 _BRANDS_ROOT = Path(__file__).resolve().parents[2] / "brands"
 
-DEFAULT_BRAND = "jammy-o"
+DEFAULT_BRAND = "kittenz"
 
 
 class BrandError(RuntimeError):
@@ -125,14 +125,43 @@ def reference_image_path(key: str, brand: str | None = None) -> Path:
     return brand_dir(brand) / "references" / f"{key}.png"
 
 
+def sound_direction(style: dict) -> str:
+    """Return the brand's native-audio direction string, if configured."""
+    sound = style.get("sound") or {}
+    direction = (sound.get("direction") or "").strip()
+    return " ".join(direction.split())
+
+
+def motion_prompt_with_sound(style: dict, motion: str, *, with_audio: bool) -> str:
+    """Append brand sound direction to a motion prompt when audio is enabled."""
+    motion = (motion or "").strip()
+    if not with_audio:
+        return motion
+    direction = sound_direction(style)
+    if not direction:
+        return motion
+    return f"{motion} Audio: {direction}"
+
+
+def sound_negative_prompt(style: dict) -> str | None:
+    """Build a negative prompt fragment from brand sound.never list, if any."""
+    sound = style.get("sound") or {}
+    never = sound.get("never") or []
+    if not never:
+        return None
+    return ", ".join(str(item).strip() for item in never if str(item).strip())
+
+
 def short_caption_prompt(style: dict, topic: str) -> str:
     """Prompt for a single short witty caption sentence — no hashtags, no CTA block."""
     voice = style["voice"]
+    brand_meta = style.get("brand", {}) or {}
+    topic_domain = brand_meta.get("topic_domain") or brand_meta.get("one_liner") or "the brand"
     prohibited = voice.get("prohibited", []) or []
     prohibited_line = ", ".join(prohibited) if prohibited else "none"
     return dedent(
         f"""
-        Write exactly ONE short, witty sentence for an Instagram caption about jam.
+        Write exactly ONE short, witty sentence for an Instagram caption about {topic_domain}.
         Scene: "{topic}".
         Voice: {voice['tone']}. {voice['person']}.
         At most one pun. No hashtags. {voice['emojis']}.

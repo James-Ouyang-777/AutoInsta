@@ -1,0 +1,62 @@
+# Daily scene rotation for the Kittenz brand.
+#
+# Selected deterministically by day: date.toordinal() % len(scenes), so the
+# rotation is stateless (no "last posted" bookkeeping needed) and self-heals
+# if a day is skipped. Add/reorder entries freely — the index just shifts.
+#
+# Fields:
+#   scene:      required — fed into brand.scene_prompt() for the still image.
+#   characters: optional — list of character keys to feature (default: all
+#               of main + supporting_characters).
+#   motion:     optional — fed to the image-to-video animation step.
+#               Brand sound.direction (cute baby kitten voices) is appended
+#               automatically when audio is enabled.
+
+scenes:
+  - scene: "Snow and Cocoa sitting side by side on a soft pastel rug, both looking gently at the camera"
+    characters: [snow, cocoa]
+    motion: "both kittens blink slowly, tails twitch once, soft baby mews, camera slowly pushes in"
+
+  - scene: "Snow napping alone in a warm sunbeam on a pale wooden floor"
+    characters: [snow]
+    motion: "gentle breathing, tiny sleepy kitten squeaks, dust motes drift in the light, camera holds steady"
+
+  - scene: "Cocoa batting gently at a single ball of yarn on a clean cream background"
+    characters: [cocoa]
+    motion: "the yarn rolls a little, Cocoa taps it with a tiny playful mew, camera holds steady"
+
+  - scene: "Snow and Cocoa peeking out of a cozy cardboard box lined with a soft blanket"
+    characters: [snow, cocoa]
+    motion: "both peek higher, ears bob, soft curious baby kitten chirps, camera gently pushes in"
+
+  - scene: "Snow perched on a windowsill looking out at soft afternoon light"
+    characters: [snow]
+    motion: "Snow's head tilts slightly with a tiny questioning mew, camera slowly pans"
+
+  - scene: "Cocoa curled into a perfect round loaf on a pastel cushion"
+    characters: [cocoa]
+    motion: "subtle breathing, soft contented baby purrs and tiny mews, camera slowly pushes in"
+
+  - scene: "Snow and Cocoa sharing a tiny milk saucer on a kitchen floor, soft morning light"
+    characters: [snow, cocoa]
+    motion: "tiny licks, both look up happily with soft baby mews, camera holds steady"
+
+  - scene: "Snow carefully stepping across a soft sofa like a tiny round marshmallow"
+    characters: [snow]
+    motion: "Snow takes one careful step with a tiny squeaky mew, camera tracks gently"
+
+  - scene: "Cocoa chasing a floating feather toy in a spare pastel room"
+    characters: [cocoa]
+    motion: "the feather drifts, Cocoa hops once with excited baby kitten squeaks, camera holds steady"
+
+  - scene: "Snow and Cocoa pressed cheek-to-cheek in a cute double loaf pose"
+    characters: [snow, cocoa]
+    motion: "both blink in sync with soft overlapping baby mews, camera slowly zooms in"
+
+  - scene: "Snow sitting in an empty teacup as if it were a throne"
+    characters: [snow]
+    motion: "Snow settles deeper into the cup with a tiny proud mew, camera holds steady"
+
+  - scene: "Cocoa exploring a neat stack of folded towels in a soft bathroom set"
+    characters: [cocoa]
+    motion: "Cocoa peeks over the towels with soft curious kitten chirps, camera gently pushes in"

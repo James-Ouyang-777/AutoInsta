@@ -70,7 +70,7 @@ jobs:
           LLM_MODEL: gpt-4o-mini
           IMAGE_MODEL: gpt-image-1
           REQUEST_TIMEOUT_SECONDS: "120"
-          BRAND: jammy-o
+          BRAND: kittenz
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           FAL_KEY: ${{ secrets.FAL_KEY }}
           INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}

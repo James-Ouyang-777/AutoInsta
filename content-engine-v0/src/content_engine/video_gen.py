@@ -114,6 +114,7 @@ def generate_video_from_image(
     duration: str = "5",
     generate_audio: bool = True,
     model: str | None = None,
+    negative_prompt: str | None = None,
 ) -> str:
     """Animate a still image into a short video via fal.ai image-to-video.
 
@@ -126,6 +127,7 @@ def generate_video_from_image(
         duration:       Video length in seconds as a string (3-15).
         generate_audio: Whether to generate native audio (default: True).
         model:          Optional fal model route override.
+        negative_prompt: Optional extra negative prompt (e.g. banned audio).
 
     Returns:
         A publicly accessible video URL.
@@ -141,6 +143,10 @@ def generate_video_from_image(
         "duration": duration,
         "generate_audio": generate_audio,
     }
+    if negative_prompt:
+        arguments["negative_prompt"] = (
+            f"blur, distort, and low quality, {negative_prompt}"
+        )
     os.environ["FAL_KEY"] = api_key
     try:
         data = fal_client.subscribe(model, arguments=arguments, with_logs=False)
