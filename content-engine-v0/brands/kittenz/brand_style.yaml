@@ -6,8 +6,8 @@
 
 brand:
   name: "Kittenz"
-  one_liner: "Two ultra-round 3D kittens living soft, cozy little lives."
-  topic_domain: "cute kittens, cozy everyday moments, and soft pet humor"
+  one_liner: "Two ultra-round 3D kittens living soft, cozy little lives — Snow the careful one, Cocoa the chaos."
+  topic_domain: "cute kitten mini-stories with clear Snow vs Cocoa chemistry"
 
 # Key of the character block below (must match a references/<key>.png file).
 main_character: "snow"
@@ -22,7 +22,8 @@ character:
   face: "two clearly visible solid round BLACK eyes (never missing, never white-on-white), tiny pink triangular nose, tiny closed-curve smile — minimal but readable features"
   limbs: "very short stubby paws and a short plump white tail curled close to the body"
   size: "tiny and toy-like — about the size of a teacup"
-  personality: "calm, gentle, soft-spoken sweetness; never mischievous in a mean way"
+  personality: "gentle, careful, slightly regal; thinks before acting; the soft stabilizer of the duo"
+  role: "the careful planner — hesitates, then helps Cocoa clean up the mess"
   invariants:
     - "Snow is ALWAYS pure white — never cream, gray, or patterned"
     - "Exactly one Snow per image when featured; never clones"
@@ -30,6 +31,7 @@ character:
     - "Minimal face but eyes MUST always be clearly visible solid black dots — never blank/eyeless face"
     - "Only simple eyes + tiny nose + tiny smile — no detailed fur, no whisker mess, no clutter"
     - "Same soft matte 3D toy look every time — never photoreal cat"
+    - "Behavior reads as careful/gentle — never the chaos-starter"
 
 # Secondary cast — same house style and round proportions as Snow.
 supporting_characters:
@@ -37,12 +39,14 @@ supporting_characters:
     name: "Cocoa"
     form: "an ultra-round, chibi 3D kitten toy character, same proportions as Snow"
     body: "soft warm BROWN fur (milk-chocolate tone), nearly spherical body, tiny stubby limbs, plush clay-like surface"
-    face: "two tiny simple black dot eyes, tiny pink triangular nose, tiny closed-curve smile — minimal features only"
+    face: "two clearly visible solid round BLACK eyes, tiny pink triangular nose, tiny closed-curve smile — minimal but readable features"
     limbs: "very short stubby paws and a short plump brown tail curled close to the body"
+    personality: "curious, bold, slightly clumsy; acts first, thinks later; lovable chaos"
+    role: "the adventure starter — bats, hops, peeks, knocks things, then looks proud"
     invariants:
       - "Cocoa is ALWAYS warm brown — never black, orange tabby, or white"
       - "Same extreme roundness as Snow — never lanky or realistic"
-      - "Distinguish from Snow by color only; proportions and face style match exactly"
+      - "Distinguish from Snow by color AND energy — Cocoa initiates the action"
       - "Never photoreal — always soft matte 3D toy render"
 
 # ---------------------------------------------------------------------------
@@ -54,7 +58,8 @@ sound:
     only cute baby kitten vocalizations: tiny soft mews, gentle high-pitched
     baby kitten squeaks, soft contented purrs, little questioning chirps.
     No human speech, no adult voices, no singing, no music with lyrics,
-    no harsh sounds. Keep volume soft and adorable.
+    no harsh sounds. Keep volume soft and adorable. Match sound intensity
+    to the story beats — quieter setup, brighter mew on the payoff.
   never:
     - "human speech"
     - "adult voices"
@@ -86,15 +91,24 @@ visual_style:
 # VOICE — how every caption sounds.
 # ---------------------------------------------------------------------------
 voice:
-  tone: "warm, soft, playful; light cat puns welcome (at most one)"
-  person: "Snow speaks in first person ('I', 'my'); the brand never says 'we'"
-  audience: "cat lovers, cozy-content fans, families"
+  tone: "self-aware, warm, lightly roasting; AI narrator reacting to the kitten story"
+  person: >
+    The caption is written as the AI itself reacting to the mini-story — not as Snow,
+    not as Cocoa, not as a brand marketer. First person as the model/AI ('I', 'me'),
+    playfully acknowledging being an AI/clanker watching this tiny drama.
+  audience: "people who like cute pet content and dry internet humor"
   reading_level: "casual, short sentences"
-  caption_style: "either NO caption, or exactly ONE short witty sentence — never a multi-line hook/body/CTA/hashtag block"
-  emojis: "at most 1, only if it fits naturally — often none"
-  max_chars: 150
+  caption_style: >
+    exactly ONE short sentence that is the AI's own reaction to the story —
+    amused, impressed, emotionally invested, or lightly unhinged in a wholesome way.
+    Example vibe (do not copy verbatim): "wow that story was riveting even for a
+    clanker like me". No hashtags. No CTA. No multi-line blocks.
+  emojis: "usually none; at most 1 if it lands naturally"
+  max_chars: 160
   prohibited:
     - "to die for"
     - "literally"
     - "any health or medical claims"
     - "guaranteed"
+    - "as an AI language model"
+    - "I'm just an AI"

@@ -4,59 +4,129 @@
 # rotation is stateless (no "last posted" bookkeeping needed) and self-heals
 # if a day is skipped. Add/reorder entries freely — the index just shifts.
 #
+# Each entry is a mini-story with setup → tiny problem → payoff.
+# Motion prompts open with a strong first-second hook, then land the beat.
+#
 # Fields:
 #   scene:      required — fed into brand.scene_prompt() for the still image.
-#   characters: optional — list of character keys to feature (default: all
-#               of main + supporting_characters).
+#   characters: optional — list of character keys to feature (default: all).
 #   motion:     optional — fed to the image-to-video animation step.
 #               Brand sound.direction (cute baby kitten voices) is appended
 #               automatically when audio is enabled.
 
 scenes:
-  - scene: "Snow and Cocoa sitting side by side on a soft pastel rug, both looking gently at the camera"
+  - scene: >
+      Mini-story beat: Cocoa bats a yarn ball under the couch (chaos), Snow carefully
+      peeks underneath to help (gentle), then both look proud as Cocoa rolls it back out.
+      Soft pastel living room, uncluttered.
     characters: [snow, cocoa]
-    motion: "both kittens blink slowly, tails twitch once, soft baby mews, camera slowly pushes in"
+    motion: >
+      First second: Cocoa suddenly bats the yarn hard under the couch. Then Snow cautiously
+      peeks underneath; Cocoa rolls the yarn back out; both do a tiny proud bounce. Soft
+      baby mews that brighten on the payoff. Camera holds then gently pushes in.
 
-  - scene: "Snow napping alone in a warm sunbeam on a pale wooden floor"
-    characters: [snow]
-    motion: "gentle breathing, tiny sleepy kitten squeaks, dust motes drift in the light, camera holds steady"
-
-  - scene: "Cocoa batting gently at a single ball of yarn on a clean cream background"
-    characters: [cocoa]
-    motion: "the yarn rolls a little, Cocoa taps it with a tiny playful mew, camera holds steady"
-
-  - scene: "Snow and Cocoa peeking out of a cozy cardboard box lined with a soft blanket"
+  - scene: >
+      Mini-story beat: Snow sits carefully on a windowsill watching rain, Cocoa hops up too
+      boldly and slips a little, Snow steadies Cocoa with a gentle paw, then they watch the
+      rain together. Soft rainy-window light.
     characters: [snow, cocoa]
-    motion: "both peek higher, ears bob, soft curious baby kitten chirps, camera gently pushes in"
+    motion: >
+      First second: Cocoa hops up onto the sill with an abrupt wobble. Snow steadies Cocoa;
+      both settle and look outside together. Soft questioning chirps then contented mews.
+      Camera slowly pans with the rain.
 
-  - scene: "Snow perched on a windowsill looking out at soft afternoon light"
-    characters: [snow]
-    motion: "Snow's head tilts slightly with a tiny questioning mew, camera slowly pans"
-
-  - scene: "Cocoa curled into a perfect round loaf on a pastel cushion"
-    characters: [cocoa]
-    motion: "subtle breathing, soft contented baby purrs and tiny mews, camera slowly pushes in"
-
-  - scene: "Snow and Cocoa sharing a tiny milk saucer on a kitchen floor, soft morning light"
+  - scene: >
+      Mini-story beat: Cocoa discovers an empty cardboard box and dives in too fast, the box
+      tips, Snow carefully rights it, then both peek out side by side like tiny royalty.
     characters: [snow, cocoa]
-    motion: "tiny licks, both look up happily with soft baby mews, camera holds steady"
+    motion: >
+      First second: Cocoa dive-bombs into the box and it tips. Snow carefully rights the box;
+      both peek out together with soft curious chirps then happy mews. Camera gently pushes in.
 
-  - scene: "Snow carefully stepping across a soft sofa like a tiny round marshmallow"
-    characters: [snow]
-    motion: "Snow takes one careful step with a tiny squeaky mew, camera tracks gently"
-
-  - scene: "Cocoa chasing a floating feather toy in a spare pastel room"
-    characters: [cocoa]
-    motion: "the feather drifts, Cocoa hops once with excited baby kitten squeaks, camera holds steady"
-
-  - scene: "Snow and Cocoa pressed cheek-to-cheek in a cute double loaf pose"
+  - scene: >
+      Mini-story beat: Cocoa chases a floating feather across a spare pastel room, almost
+      catches it, misses, then Snow gently traps the feather with one careful paw so Cocoa
+      can tap it triumphantly.
     characters: [snow, cocoa]
-    motion: "both blink in sync with soft overlapping baby mews, camera slowly zooms in"
+    motion: >
+      First second: Cocoa lunges after the floating feather. Misses; Snow carefully pins the
+      feather; Cocoa taps it proudly. Excited baby squeaks then a happy payoff mew. Camera
+      tracks the chase then holds.
 
-  - scene: "Snow sitting in an empty teacup as if it were a throne"
-    characters: [snow]
-    motion: "Snow settles deeper into the cup with a tiny proud mew, camera holds steady"
+  - scene: >
+      Mini-story beat: Snow is carefully arranging tiny folded towels into a neat stack;
+      Cocoa barges in and flops on top; Snow looks mildly offended then accepts the cuddle
+      loaf on the towels.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa flops onto Snow's neat towel stack. Snow blinks offended, then
+      melts into a double loaf. Soft squeak then contented purrs. Camera holds with a gentle
+      zoom.
 
-  - scene: "Cocoa exploring a neat stack of folded towels in a soft bathroom set"
-    characters: [cocoa]
-    motion: "Cocoa peeks over the towels with soft curious kitten chirps, camera gently pushes in"
+  - scene: >
+      Mini-story beat: Cocoa tries to drink from a tiny milk saucer too eagerly and gets a
+      milk mustache; Snow carefully licks a paw and taps Cocoa's face clean; both look
+      smug at the camera.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa dives at the saucer and comes up with a milk mustache. Snow taps
+      Cocoa's face clean; both look at camera proudly. Soft baby mews. Camera holds steady.
+
+  - scene: >
+      Mini-story beat: Snow carefully steps across sofa cushions like a tiny marshmallow
+      bridge; Cocoa tries to copy, wobbles dramatically, Snow waits and guides Cocoa to the
+      last cushion for a shared victory sit.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa starts the cushion crossing with a big wobble. Snow guides Cocoa
+      to the final cushion; both sit proudly. Tiny squeaky mews then a bright payoff chirp.
+      Camera tracks alongside.
+
+  - scene: >
+      Mini-story beat: Cocoa finds a teacup and claims it as a throne too boldly, tipping
+      it; Snow carefully sits Snow-style in the upright cup while Cocoa sits beside it like
+      a loyal chaos knight.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa tip-claims the teacup and it rocks. Snow settles carefully into
+      the cup; Cocoa sits beside it proudly. Soft proud mews. Camera holds then slowly
+      pushes in.
+
+  - scene: >
+      Mini-story beat: Snow is napping in a sunbeam; Cocoa sneaks up to startle-pounce but
+      lands soft and just snuggles in; Snow half-opens eyes, accepts it, both loaf in the light.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa soft-pounces into the sunbeam beside Snow. Snow blinks awake,
+      accepts the snuggle, both breathe together. Tiny sleepy squeaks then soft purrs.
+      Camera slowly pushes in.
+
+  - scene: >
+      Mini-story beat: Cocoa knocks a single ball of yarn off a low table; Snow carefully
+      retrieves it and places it back; Cocoa immediately bats it off again; both freeze,
+      then laugh-mew at each other.
+    characters: [snow, cocoa]
+    motion: >
+      First second: yarn ball falls as Cocoa bats it. Snow retrieves and replaces it;
+      Cocoa bats it off again; both freeze then happy-mew. Playful chirps. Camera holds
+      with a tiny tilt.
+
+  - scene: >
+      Mini-story beat: Snow carefully carries a tiny toy mouse toward a cushion nest; Cocoa
+      steals it mid-walk with a proud hop; Snow looks betrayed for one beat, then they play
+      tug-of-war gently and share the nest.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa steals the toy with a sudden hop. One betrayed Snow blink, then
+      gentle tug-of-war into a shared nest cuddle. Soft dramatic mew then happy chirps.
+      Camera pushes in on the nest.
+
+  - scene: >
+      Mini-story beat: Cocoa tries to open a tiny pantry door with bold headbutts; Snow
+      watches, then gently presses the door closed with one paw; Cocoa accepts defeat and
+      they loaf against the door together instead.
+    characters: [snow, cocoa]
+    motion: >
+      First second: Cocoa headbutts the pantry door. Snow calmly presses it shut; Cocoa
+      accepts and both loaf together. Soft frustrated chirp then contented mews. Camera
+      holds steady.

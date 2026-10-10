@@ -80,7 +80,7 @@ def character_sheet(style: dict, key: str) -> str:
     """The canonical one-paragraph description of a character."""
     c = _character_block(style, key)
     parts = [f"{c['name']}: {c['form']}.", f"Body: {c['body']}."]
-    for field in ("lid", "label", "face", "limbs"):
+    for field in ("lid", "label", "face", "limbs", "personality", "role"):
         if c.get(field):
             parts.append(f"{field.capitalize()}: {c[field]}.")
     return " ".join(parts)
@@ -112,7 +112,9 @@ def scene_prompt(style: dict, scene: str, characters: list[str]) -> str:
         f"{vs['rendering']}. "
         f"The attached reference images show the exact characters to use: {names}. "
         f"Keep every character exactly on-model: {sheets} "
-        f"Scene: {scene}. "
+        f"Story moment (freeze the clearest payoff/setup beat in one still): {scene}. "
+        f"Show character personality through pose and energy — who started the action "
+        f"vs who is carefully responding. "
         f"The characters are the clear heroes of the frame, square 1:1 composition. "
         f"Strictly no text or lettering anywhere, no labels on jars, no watermarks, "
         f"no logos, no realistic human faces, no photorealism — the whole world is "
@@ -153,18 +155,22 @@ def sound_negative_prompt(style: dict) -> str | None:
 
 
 def short_caption_prompt(style: dict, topic: str) -> str:
-    """Prompt for a single short witty caption sentence — no hashtags, no CTA block."""
+    """Prompt for a single short caption sentence — no hashtags, no CTA block."""
     voice = style["voice"]
     brand_meta = style.get("brand", {}) or {}
     topic_domain = brand_meta.get("topic_domain") or brand_meta.get("one_liner") or "the brand"
+    caption_style = voice.get("caption_style") or "exactly ONE short witty sentence"
     prohibited = voice.get("prohibited", []) or []
     prohibited_line = ", ".join(prohibited) if prohibited else "none"
     return dedent(
         f"""
-        Write exactly ONE short, witty sentence for an Instagram caption about {topic_domain}.
-        Scene: "{topic}".
-        Voice: {voice['tone']}. {voice['person']}.
-        At most one pun. No hashtags. {voice['emojis']}.
+        Write exactly ONE short Instagram caption about this mini-story.
+        Story/scene: "{topic}".
+        Brand topic domain: {topic_domain}.
+        Caption style: {caption_style}
+        Persona/voice: {voice['person']}. Tone: {voice['tone']}.
+        Emojis: {voice['emojis']}.
+        No hashtags. No multi-line CTA blocks.
         Avoid these words/topics entirely: {prohibited_line}.
         Respond with strict JSON: {{"caption": str}}.
         """
