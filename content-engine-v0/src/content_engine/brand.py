@@ -164,13 +164,19 @@ def short_caption_prompt(style: dict, topic: str) -> str:
     prohibited_line = ", ".join(prohibited) if prohibited else "none"
     return dedent(
         f"""
-        Write exactly ONE short Instagram caption about this mini-story.
+        Write exactly ONE short Instagram caption reacting to this mini-story.
         Story/scene: "{topic}".
         Brand topic domain: {topic_domain}.
         Caption style: {caption_style}
         Persona/voice: {voice['person']}. Tone: {voice['tone']}.
-        Emojis: {voice['emojis']}.
-        No hashtags. No multi-line CTA blocks.
+
+        Hard rules:
+        - Speak as the AI watching the story (I/me), NOT as Snow, Cocoa, or a third-person narrator.
+        - React to the plot emotionally/amusingly (impressed, unhinged, soft, dramatic).
+        - Do NOT summarize the plot like a sports announcer or fairytale narrator.
+        - Do NOT start with character names as the subject ("Cocoa's got...", "Snow carefully...").
+        - Light self-aware AI/clanker humor is encouraged when it fits.
+        - Exactly one sentence. No hashtags. No CTA. Emojis: {voice['emojis']}.
         Avoid these words/topics entirely: {prohibited_line}.
         Respond with strict JSON: {{"caption": str}}.
         """

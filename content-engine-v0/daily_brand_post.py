@@ -57,7 +57,7 @@ def main() -> None:
         help="Override the date used to pick today's scene (YYYY-MM-DD). Default: today in America/New_York.",
     )
     parser.add_argument("--scene", default=None, help="Override the scene text instead of using the rotation.")
-    parser.add_argument("--duration", default="5", help="Video length in seconds, 3-15 (default: 5).")
+    parser.add_argument("--duration", default="10", help="Video length in seconds, 3-15 (default: 10).")
     parser.add_argument(
         "--caption",
         choices=["witty", "none"],

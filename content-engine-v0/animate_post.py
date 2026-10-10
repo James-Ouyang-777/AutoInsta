@@ -58,7 +58,7 @@ def main() -> None:
         default=_DEFAULT_MOTION,
         help="Describes the desired animation. Keep it about motion, not new content.",
     )
-    parser.add_argument("--duration", default="5", help="Video length in seconds, 3-15 (default: 5).")
+    parser.add_argument("--duration", default="10", help="Video length in seconds, 3-15 (default: 10).")
     parser.add_argument(
         "--no-audio",
         action="store_true",
