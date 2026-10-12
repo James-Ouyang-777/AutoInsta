@@ -30,7 +30,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from content_engine import brand
+from content_engine import brand, media_log
 from content_engine.image_gen import ImageGenError, host_image_publicly
 from content_engine.llm_adapter import LLMError
 from content_engine.poster import PostError
@@ -124,14 +124,38 @@ def main() -> None:
         video_path.write_bytes(r.content)
     print(f"[{now}] Video saved locally: {video_path}")
 
+    brand_key = args.brand or brand._default_brand()
+    log_entry = media_log.append_entry(
+        {
+            "brand": brand_key,
+            "scene": args.topic or args.motion,
+            "characters": None,
+            "duration": args.duration,
+            "audio": with_audio,
+            "image_path": str(args.image),
+            "image_url": None if image_url.startswith("data:") else image_url,
+            "video_path": str(video_path),
+            "video_url": video_url,
+            "caption": None,
+            "status": media_log.STATUS_GENERATED,
+            "instagram_post_id": None,
+            "error": None,
+            "source": "animate_post",
+        }
+    )
+    print(f"[{now}] Media log id: {log_entry['id']}")
+    print(f"[{now}] MEDIA_LOG video_url={video_url}")
+
     if not args.queue:
+        media_log.update_entry(log_entry["id"], status=media_log.STATUS_PREVIEW)
         print(f"\n[{now}] Preview complete — nothing was queued or published.")
         print(f"  Local file: {video_path}")
         print(f"  CDN URL:    {video_url}")
+        print(f"  Log id:     {log_entry['id']}")
         print(f"  To queue:   rerun with --queue (or --publish to post immediately)")
         return
 
-    topic = args.topic or "Jammy-O and Pineapple video"
+    topic = args.topic or "brand video"
     if args.caption == "none":
         caption = ""
         print(f"[{now}] Caption: (none)")
@@ -140,9 +164,16 @@ def main() -> None:
         try:
             caption = brand.generate_short_caption(style, topic)
         except LLMError as e:
+            media_log.update_entry(
+                log_entry["id"],
+                status=media_log.STATUS_CAPTION_FAILED,
+                error=str(e),
+            )
             print(f"[{now}] Caption generation failed: {e}", file=sys.stderr)
+            print(f"[{now}] Retry with: python media_cli.py post {log_entry['id']}", file=sys.stderr)
             sys.exit(1)
         print(f"[{now}] Caption ready: {caption}\n")
+        media_log.update_entry(log_entry["id"], caption=caption)
 
     pending = _enqueue_pending_post(
         media_type="video",
@@ -153,19 +184,36 @@ def main() -> None:
     print(f"[{now}] Queued pending post: {pending['id']}")
 
     if not args.publish:
+        media_log.update_entry(log_entry["id"], status=media_log.STATUS_UNPOSTED, caption=caption)
         print(f"\n[{now}] Queued — nothing was published.")
         print(f"  Publish: python daily_post.py --retry-pending")
+        print(f"  Or:      python media_cli.py post {log_entry['id']}")
         return
 
     print(f"[{now}] Publishing Reel to Instagram...")
     try:
         post_id = _post_with_retries(pending, max_attempts=3)
     except PostError as e:
+        media_log.update_entry(
+            log_entry["id"],
+            status=media_log.STATUS_POST_FAILED,
+            caption=caption,
+            error=str(e),
+        )
         print(f"[{now}] Post failed: {e}", file=sys.stderr)
         print(f"[{now}] Kept in queue. Retry with: python daily_post.py --retry-pending", file=sys.stderr)
+        print(f"[{now}] Or: python media_cli.py post {log_entry['id']}", file=sys.stderr)
         sys.exit(1)
     _remove_pending_post(pending["id"])
+    media_log.update_entry(
+        log_entry["id"],
+        status=media_log.STATUS_POSTED,
+        caption=caption,
+        instagram_post_id=post_id,
+        error=None,
+    )
     print(f"[{now}] Done! Post ID: {post_id}")
+
 
 
 if __name__ == "__main__":

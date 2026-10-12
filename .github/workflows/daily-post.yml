@@ -22,6 +22,10 @@ concurrency:
   group: daily-post
   cancel-in-progress: false
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   post:
     runs-on: ubuntu-latest
@@ -82,11 +86,36 @@ jobs:
           fi
           python daily_brand_post.py $FLAGS
 
-      - name: Upload generated media
+      - name: Upload generated media + media log
         if: always() && steps.guard.outputs.skip != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: post-${{ github.run_id }}
-          path: content-engine-v0/generated/
-          retention-days: 14
+          path: |
+            content-engine-v0/generated/
+            content-engine-v0/media_log.jsonl
+          retention-days: 30
           if-no-files-found: ignore
+
+      - name: Persist media_log.jsonl to repo
+        if: always() && steps.guard.outputs.skip != 'true'
+        working-directory: content-engine-v0
+        run: |
+          if [ ! -f media_log.jsonl ]; then
+            echo "No media_log.jsonl to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add media_log.jsonl
+          if git diff --staged --quiet; then
+            echo "media_log.jsonl unchanged"
+            exit 0
+          fi
+          git commit -m "chore: append media_log from run ${{ github.run_id }}"
+          # Retry once if another run pushed the log first
+          if ! git push; then
+            git pull --rebase origin "${{ github.ref_name }}"
+            git push
+          fi
+
