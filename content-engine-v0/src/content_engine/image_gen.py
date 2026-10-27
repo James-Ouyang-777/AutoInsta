@@ -84,7 +84,7 @@ def generate_image(topic: str, keywords: list[str], tone: str = "warm, aesthetic
         f"No text overlays, no watermarks, no logos."
     )
 
-    model = os.getenv("IMAGE_MODEL", "gpt-image-1")
+    model = os.getenv("IMAGE_MODEL", "gpt-image-2.5-sunburst")
 
     payload = {
         "model": model,
@@ -152,7 +152,7 @@ def generate_scene_image(prompt: str, reference_paths: list[Path]) -> bytes:
                 "Generate and approve one with generate_reference.py first."
             )
 
-    model = os.getenv("IMAGE_MODEL", "gpt-image-1")
+    model = os.getenv("IMAGE_MODEL", "gpt-image-2.5-sunburst")
     base_url = os.getenv("LLM_API_BASE", "https://api.openai.com/v1")
 
     files = [

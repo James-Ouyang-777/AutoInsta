@@ -40,7 +40,7 @@ def _generate(prompt: str, n: int) -> list[bytes]:
     if not api_key:
         sys.exit("LLM_API_KEY missing — set it in your .env file.")
     base_url = os.getenv("LLM_API_BASE", "https://api.openai.com/v1")
-    model = os.getenv("IMAGE_MODEL", "gpt-image-1")
+    model = os.getenv("IMAGE_MODEL", "gpt-image-2.5-sunburst")
 
     payload = {"model": model, "prompt": prompt, "n": n, "size": "1024x1024"}
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
